@@ -1,0 +1,8 @@
+{
+    "name": "Record-bot",
+    "version": "1.0.0",
+    "description": "Takes ranks and puts them into a csv",
+    "main": "RecordBot.js",
+    "author": "Casey Shore",
+    "dependencies": {}
+}
