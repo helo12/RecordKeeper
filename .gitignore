@@ -3,3 +3,4 @@ botinfo.txt
 package-lock.json
 auth.json
 .env
+logs
