@@ -25,10 +25,13 @@ client.on("message", message => {
                 message.channel.send("My job is to record our servers ranks and the names of those who belongs to those ranks!");
                 break;
             case "add":
-                fs.appendFile(`${__dirname}/logs/roleNames.txt`, `${args}\n`, function(err){
+                message.channel.send("Added:")
+                for(var a = 0; a < args.length; a++){
+                fs.appendFile(`${__dirname}/logs/roleNames.txt`, `${args[a]}\n`, function(err){
                     if (err) throw err;
                 });
-                message.channel.send(`${args} added to Role Name list!`)
+                message.channel.send(`${args[a]}`)
+            }
                 break;
             case "csv":
                 function runCSV() {
