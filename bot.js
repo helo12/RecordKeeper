@@ -38,6 +38,16 @@ client.on("message", message => {
                     message.channel.send(`${args[a]}`)
                 }
                 break;
+            case "twoAdd":
+                message.channel.send("Added:")
+                for (var t = 0; t < args.length; t++) {
+                    fs.appendFile(`${__dirname}/logs/roleNames.txt`, `${args[t] + " " + args[t + 1]}\n`, function (err) {
+                        if (err) throw err;
+                    });
+                    message.channel.send(`${args[t] + " " + args[t + 1]}`)
+                    t += 1;
+                }
+                break;
             case "csv":
                 function runCSV() {
                     //Tags come in based on what role id you entered for args, after it get tags it maps it into an array
@@ -46,13 +56,14 @@ client.on("message", message => {
                         if (err) throw err;
                         var roleNames = data.split("\n");
                         var popped = roleNames.pop();
+                        console.log(roleNames);
                         for (var l = 0; l < roleNames.length; l++) {
                             csvRole(roleNames[l]);
                             console.log(roleNames[l])
                         }
                     })
                     setTimeout(function () {
-                        finalContent = showContent.join("");
+                        var finalContent = showContent.join("");
                         fs.writeFile(`${__dirname}/logs/ranks.csv`, finalContent, function (err) {
                             if (err) throw err;
                         })
@@ -61,9 +72,13 @@ client.on("message", message => {
                     }, 2000)
 
                     function csvRole(roleNameSTR) {
-                        let thisRole = message.guild.roles.find(role => role.name === roleNameSTR).members.map(m => m.user.tag);
-                        for (let i = 0; i < thisRole.length; i++) {
-                            showContent.push(`${roleNameSTR},${thisRole[i]}\n`)
+                        if(message.guild.roles.find(role => role.name === roleNameSTR) != null){
+                            let thisRole = message.guild.roles.find(role => role.name === roleNameSTR).members.map(m => m.user.tag);
+                            for (let i = 0; i < thisRole.length; i++) {
+                                showContent.push(`${roleNameSTR},${thisRole[i]}\n`)
+                            }
+                        } else {
+                            console.log(roleNameSTR + " skipped.")
                         }
                     }
 
