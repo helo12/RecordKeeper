@@ -2,10 +2,9 @@
   "name": "record-bot",
   "version": "1.0.0",
   "description": "Takes ranks and puts them into a csv",
-  "main": "RecordBot.js",
+  "main": "server.js",
   "author": "Casey Shore",
   "dependencies": {
-    "discord.io": "^2.5.3",
     "discord.js": "^11.4.2",
     "dotenv": "^6.2.0",
     "fs": "^0.0.1-security",
