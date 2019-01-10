@@ -7,6 +7,11 @@ const prefix = "!";
 const key = process.env;
 
 client.on("ready", () => {
+    var dir = __dirname + '/logs';
+
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir);
+    }
     console.log("I am ready!");
 })
 
@@ -26,27 +31,27 @@ client.on("message", message => {
                 break;
             case "add":
                 message.channel.send("Added:")
-                for(var a = 0; a < args.length; a++){
-                fs.appendFile(`${__dirname}/logs/roleNames.txt`, `${args[a]}\n`, function(err){
-                    if (err) throw err;
-                });
-                message.channel.send(`${args[a]}`)
-            }
+                for (var a = 0; a < args.length; a++) {
+                    fs.appendFile(`${__dirname}/logs/roleNames.txt`, `${args[a]}\n`, function (err) {
+                        if (err) throw err;
+                    });
+                    message.channel.send(`${args[a]}`)
+                }
                 break;
             case "csv":
                 function runCSV() {
                     //Tags come in based on what role id you entered for args, after it get tags it maps it into an array
                     var showContent = [];
-                    fs.readFile(`${__dirname}/logs/roleNames.txt`, "utf8", function(err, data){
+                    fs.readFile(`${__dirname}/logs/roleNames.txt`, "utf8", function (err, data) {
                         if (err) throw err;
                         var roleNames = data.split("\n");
                         var popped = roleNames.pop();
-                        for(var l = 0; l < roleNames.length; l++){
+                        for (var l = 0; l < roleNames.length; l++) {
                             csvRole(roleNames[l]);
                             console.log(roleNames[l])
                         }
                     })
-                    setTimeout(function(){
+                    setTimeout(function () {
                         finalContent = showContent.join("");
                         fs.writeFile(`${__dirname}/logs/ranks.csv`, finalContent, function (err) {
                             if (err) throw err;
@@ -54,14 +59,14 @@ client.on("message", message => {
                         const attachment = message.channel.send(new Attachment(`${__dirname}/logs/ranks.csv`))
                         message.channel.send("CSV File created!", attachment)
                     }, 2000)
-                    
+
                     function csvRole(roleNameSTR) {
                         let thisRole = message.guild.roles.find(role => role.name === roleNameSTR).members.map(m => m.user.tag);
                         for (let i = 0; i < thisRole.length; i++) {
                             showContent.push(`${roleNameSTR},${thisRole[i]}\n`)
                         }
                     }
-                    
+
                 }
                 runCSV();
                 break;
