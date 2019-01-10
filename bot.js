@@ -29,39 +29,21 @@ client.on("message", message => {
             case "job":
                 message.channel.send("My job is to record our servers ranks and the names of those who belongs to those ranks!");
                 break;
-            case "add":
-                message.channel.send("Added:")
-                for (var a = 0; a < args.length; a++) {
-                    fs.appendFile(`${__dirname}/logs/roleNames.txt`, `${args[a]}\n`, function (err) {
-                        if (err) throw err;
-                    });
-                    message.channel.send(`${args[a]}`)
-                }
-                break;
-            case "twoAdd":
-                message.channel.send("Added:")
-                for (var t = 0; t < args.length; t++) {
-                    fs.appendFile(`${__dirname}/logs/roleNames.txt`, `${args[t] + " " + args[t + 1]}\n`, function (err) {
-                        if (err) throw err;
-                    });
-                    message.channel.send(`${args[t] + " " + args[t + 1]}`)
-                    t += 1;
-                }
+            case "test":
+                console.log(message.guild.roles.map(role => role.id))
+                console.log(message.guild.roles.map(role => role.name))
                 break;
             case "csv":
                 function runCSV() {
                     //Tags come in based on what role id you entered for args, after it get tags it maps it into an array
                     var showContent = [];
-                    fs.readFile(`${__dirname}/logs/roleNames.txt`, "utf8", function (err, data) {
-                        if (err) throw err;
-                        var roleNames = data.split("\n");
-                        var popped = roleNames.pop();
-                        console.log(roleNames);
-                        for (var l = 0; l < roleNames.length; l++) {
-                            csvRole(roleNames[l]);
-                            console.log(roleNames[l])
-                        }
-                    })
+                    var roleIDArr = message.guild.roles.map(role => role.id).slice(1);
+                    var roleNamesArr = message.guild.roles.map(role => role.name).slice(1);
+
+                    for (var l = 0; l < roleIDArr.length; l++) {
+                        csvRole(roleIDArr[l], roleNamesArr[l]);
+                        console.log(roleIDArr[l] + ": " + roleNamesArr[l]);
+                    }
                     setTimeout(function () {
                         var finalContent = showContent.join("");
                         fs.writeFile(`${__dirname}/logs/ranks.csv`, finalContent, function (err) {
@@ -71,17 +53,13 @@ client.on("message", message => {
                         message.channel.send("CSV File created!", attachment)
                     }, 2000)
 
-                    function csvRole(roleNameSTR) {
-                        if(message.guild.roles.find(role => role.name === roleNameSTR) != null){
-                            let thisRole = message.guild.roles.find(role => role.name === roleNameSTR).members.map(m => m.user.tag);
-                            for (let i = 0; i < thisRole.length; i++) {
-                                showContent.push(`${roleNameSTR},${thisRole[i]}\n`)
-                            }
-                        } else {
-                            console.log(roleNameSTR + " skipped.")
+                    function csvRole(roleID, roleName) {
+                        let thisRole = message.guild.roles.get(roleID).members.map(m => m.user.tag);
+                        for (let i = 0; i < thisRole.length; i++) {
+                            showContent.push(`${roleName},${thisRole[i]}\n`);
                         }
-                    }
 
+                    }
                 }
                 runCSV();
                 break;
