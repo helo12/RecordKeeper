@@ -50,9 +50,9 @@ client.on("message", message => {
                         fs.writeFile(`${__dirname}/logs/ranks.csv`, finalContent, function (err) {
                             if (err) throw err;
                         })
-                        const attachment = message.channel.send(new Attachment(`${__dirname}/logs/ranks.csv`))
                     }, 2000)
                     setTimeout(function () {
+                        var attachment = message.channel.send(new Attachment(`${__dirname}/logs/ranks.csv`))
                         message.channel.send("CSV File created!", attachment)
                     }, 3500)
 
