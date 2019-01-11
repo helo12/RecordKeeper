@@ -6,6 +6,7 @@ require("dotenv").config()
 const prefix = "!";
 const key = process.env;
 
+
 client.on("ready", () => {
     var dir = __dirname + '/logs';
 
@@ -67,5 +68,7 @@ client.on("message", message => {
     }
 
 })
+
+client.on('error', console.error)
 
 client.login(key.BOT_TOKEN)
