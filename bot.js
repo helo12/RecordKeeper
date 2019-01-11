@@ -51,8 +51,10 @@ client.on("message", message => {
                             if (err) throw err;
                         })
                         const attachment = message.channel.send(new Attachment(`${__dirname}/logs/ranks.csv`))
-                        message.channel.send("CSV File created!", attachment)
                     }, 2000)
+                    setTimeout(function () {
+                        message.channel.send("CSV File created!", attachment)
+                    }, 3500)
 
                     function csvRole(roleID, roleName) {
                         let thisRole = message.guild.roles.get(roleID).members.map(m => m.user.tag);
