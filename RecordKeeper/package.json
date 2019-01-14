@@ -1,0 +1,27 @@
+{
+  "name": "record-bot",
+  "version": "1.0.0",
+  "description": "Takes ranks and puts them into a csv",
+  "main": "server.js",
+  "author": "Casey Shore",
+  "dependencies": {
+    "discord.js": "^11.4.2",
+    "dotenv": "^6.2.0",
+    "fs": "^0.0.1-security",
+    "mkdirp": "^0.5.1",
+    "winston": "^3.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BowArrow/RecordKeeper.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BowArrow/RecordKeeper/issues"
+  },
+  "homepage": "https://github.com/BowArrow/RecordKeeper#readme"
+}
